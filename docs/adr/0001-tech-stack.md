@@ -24,7 +24,7 @@ The third constraint is the interesting one, because AI image generation is slow
 
 | Concern           | Choice                                          |
 | ----------------- | ----------------------------------------------- |
-| Framework         | **Next.js 15**, App Router, TypeScript strict   |
+| Framework         | **Next.js 16**, App Router, TypeScript strict   |
 | Hosting           | **Vercel** (Hobby)                              |
 | Database          | **Turso** (libSQL / SQLite)                     |
 | Database access   | **Drizzle ORM** + plain SQL migrations          |
@@ -140,6 +140,8 @@ One auth system covers both audiences. A `role` column (`user` | `admin`) distin
 **Postgres (Neon/Supabase) instead of Turso.** Better concurrency, real `jsonb`, no row-size ceiling. Rejected on budget: free Postgres tiers suspend on inactivity or expire, and Turso's free allowance is more durable for a project with no spend.
 
 **A queue for generation (Inngest, QStash, Trigger.dev).** The textbook answer for slow work, and all three have free tiers. Rejected for MVP: 60 seconds covers one Gemini image comfortably, and a queue adds a service, a webhook surface, and local-development complexity to solve a problem we do not yet have. The persisted-row design is deliberately queue-shaped so this decision can be revisited cheaply.
+
+**Next.js 15.** Superseded during scaffolding: `create-next-app` installs 16.x, which is current. Pinned to 16.3.4 rather than 16.3.5 because Yarn 4 quarantines packages published within three days, and 16.3.5 was a day old.
 
 **Separate React Router frontend + Node API.** Matches the two-rulebook split these rulebooks came from. Rejected: two deployments, and it forces the type duplication that a single app avoids.
 
